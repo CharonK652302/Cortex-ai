@@ -27,31 +27,32 @@ st.title("📄 Chat with Your PDF (RAG + FLAN)")
 uploaded_file = st.file_uploader("📂 Upload your PDF", type="pdf")
 
 # ===============================
-# LIGHTWEIGHT MODEL (FAST + SAFE)
+# MODEL (FIXED + LIGHT)
 # ===============================
 @st.cache_resource
 def load_model():
     return pipeline(
-        "text2text-generation",
-        model="google/flan-t5-small",   # 🔥 LIGHT MODEL (IMPORTANT)
+        "text-generation",   # ✅ FIXED TASK
+        model="google/flan-t5-small",   # ✅ LIGHT MODEL
         device=-1
     )
 
 generator = load_model()
 
 # ===============================
-# EMBEDDINGS
+# EMBEDDINGS (LIGHT)
 # ===============================
 @st.cache_resource
 def get_embeddings():
     return HuggingFaceEmbeddings(
-        model_name="sentence-transformers/all-MiniLM-L6-v2"  # lighter
+        model_name="sentence-transformers/all-MiniLM-L6-v2"
     )
 
 # ===============================
 # PROCESS PDF
 # ===============================
 def process_pdf(uploaded_file):
+
     if uploaded_file.size == 0:
         st.error("❌ Uploaded file is empty.")
         return None
@@ -112,12 +113,13 @@ if "messages" not in st.session_state:
 # QA FUNCTION (FAST + SAFE)
 # ===============================
 def ask_question(query):
+
     docs = db.similarity_search(query, k=2)
 
     context = "\n".join([doc.page_content for doc in docs])[:1500]
 
     prompt = f"""
-Answer the question based only on the context.
+Answer the question using ONLY the context.
 
 Context:
 {context}
@@ -131,9 +133,9 @@ Question:
             prompt,
             max_new_tokens=80,
             do_sample=False
-        )[0]["generated_text"]
+        )
 
-        answer = result.strip()
+        answer = result[0]["generated_text"].strip()
 
     except Exception as e:
         answer = f"❌ Model error: {str(e)}"
