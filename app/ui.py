@@ -32,12 +32,6 @@ st.markdown("### 💬 Chat with your document")
 # ===============================
 uploaded_file = st.file_uploader("📂 Upload your PDF", type="pdf")
 
-# ===============================
-# LOAD DEFAULT DB (CACHE)
-# ===============================
-@st.cache_resource
-def load_db():
-    return load_vector_store()
 
 # ===============================
 # LOAD MODEL (CACHE)
@@ -110,8 +104,12 @@ if uploaded_file:
         st.success("✅ PDF processed! Ask your questions below.")
     else:
         st.stop()
+if uploaded_file:
+    db = process_pdf(uploaded_file)
+    st.success("✅ PDF processed! Ask your questions below.")
 else:
-    db = load_db()
+    st.warning("📂 Please upload a PDF to begin.")
+    st.stop()
 
 # ===============================
 # CHAT MEMORY
