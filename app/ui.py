@@ -22,25 +22,34 @@ st.set_page_config(page_title="📄 Chat with PDF", layout="wide")
 st.title("📄 Chat with Your PDF (RAG + FLAN)")
 
 # ===============================
+# SIDEBAR (NEW)
+# ===============================
+with st.sidebar:
+    st.title("📘 About")
+    st.write("Upload a PDF and ask questions using AI.")
+    st.write("Built using RAG + HuggingFace + Streamlit")
+    st.write("⚡ Lightweight & fast model for deployment")
+
+# ===============================
 # FILE UPLOAD
 # ===============================
 uploaded_file = st.file_uploader("📂 Upload your PDF", type="pdf")
 
 # ===============================
-# MODEL (FIXED + LIGHT)
+# MODEL
 # ===============================
 @st.cache_resource
 def load_model():
     return pipeline(
-        "text-generation",   # ✅ FIXED TASK
-        model="google/flan-t5-small",   # ✅ LIGHT MODEL
+        "text-generation",
+        model="google/flan-t5-small",
         device=-1
     )
 
 generator = load_model()
 
 # ===============================
-# EMBEDDINGS (LIGHT)
+# EMBEDDINGS
 # ===============================
 @st.cache_resource
 def get_embeddings():
@@ -110,7 +119,7 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 
 # ===============================
-# QA FUNCTION (FAST + SAFE)
+# QA FUNCTION
 # ===============================
 def ask_question(query):
 
@@ -137,10 +146,18 @@ Question:
 
         answer = result[0]["generated_text"].strip()
 
+        # fallback
+        if len(answer.strip()) < 5:
+            answer = "I couldn't find relevant information in the document."
+
     except Exception as e:
         answer = f"❌ Model error: {str(e)}"
 
-    sources = [doc.page_content[:150] for doc in docs]
+    # 🔥 ADD PAGE NUMBER (SAFE "highlight")
+    sources = [
+        f"(Page {doc.metadata.get('page', 'N/A')})\n{doc.page_content[:150]}"
+        for doc in docs
+    ]
 
     return answer, sources
 
@@ -150,6 +167,16 @@ Question:
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.write(msg["content"])
+
+# ===============================
+# DOWNLOAD CHAT (NEW)
+# ===============================
+if st.session_state.messages:
+    st.download_button(
+        "📥 Download Chat",
+        str(st.session_state.messages),
+        file_name="chat_history.txt"
+    )
 
 # ===============================
 # USER INPUT
@@ -162,12 +189,12 @@ if query := st.chat_input("Ask something about your PDF..."):
         st.write(query)
 
     with st.chat_message("assistant"):
-        with st.spinner("Thinking..."):
+        with st.spinner("🤖 AI is analyzing your document..."):   # ✅ improved UX
             answer, sources = ask_question(query)
 
             st.write(answer)
 
-            with st.expander("📚 Sources"):
+            with st.expander("📚 Sources (with page numbers)"):
                 for i, src in enumerate(sources):
                     st.code(src)
 
