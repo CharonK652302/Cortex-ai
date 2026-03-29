@@ -20,7 +20,7 @@ import tempfile
 # ===============================
 st.set_page_config(page_title="📄 Chat with PDF", layout="wide")
 
-st.title("📄 Chat with Your PDF (RAG + TinyLlama)")
+st.title("📄 Chat with Your PDF (RAG + Phi-2 ⚡)")
 st.markdown("### 💬 Chat with your document")
 
 # ===============================
@@ -29,13 +29,13 @@ st.markdown("### 💬 Chat with your document")
 uploaded_file = st.file_uploader("📂 Upload your PDF", type="pdf")
 
 # ===============================
-# LOAD MODEL (CACHE)
+# LOAD MODEL (FAST)
 # ===============================
 @st.cache_resource
 def load_model():
     return pipeline(
         "text-generation",
-        model="TinyLlama/TinyLlama-1.1B-Chat-v1.0",
+        model="microsoft/phi-2",
         device=-1
     )
 
@@ -51,12 +51,11 @@ def get_embeddings():
     )
 
 # ===============================
-# PROCESS PDF (FINAL FIXED)
+# PROCESS PDF
 # ===============================
 def process_pdf(uploaded_file):
     try:
-        # ✅ FIX: reset file pointer (VERY IMPORTANT)
-        uploaded_file.seek(0)
+        uploaded_file.seek(0)  # 🔥 FIX empty file issue
 
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
             tmp.write(uploaded_file.read())
@@ -90,9 +89,8 @@ def process_pdf(uploaded_file):
         st.error(f"❌ Error processing PDF: {str(e)}")
         return None
 
-
 # ===============================
-# LOAD DB ONLY AFTER UPLOAD
+# LOAD DB
 # ===============================
 if uploaded_file:
     db = process_pdf(uploaded_file)
@@ -112,21 +110,17 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 
 # ===============================
-# QUESTION FUNCTION
+# QUESTION FUNCTION (FAST)
 # ===============================
 def ask_question(query):
-    docs = db.similarity_search(query, k=3)
+    docs = db.similarity_search(query, k=2)  # 🔥 reduced for speed
 
     context = "\n".join([doc.page_content for doc in docs])
 
     prompt = f"""
-You are an intelligent assistant.
+Answer the question using ONLY the context below.
 
-Answer ONLY using the given context.
-
-If answer is not present, say "I don't know".
-
-Give a clear and short answer.
+If not found, say "I don't know".
 
 Context:
 {context}
@@ -139,9 +133,8 @@ Answer:
 
     result = generator(
         prompt,
-        max_new_tokens=150,
-        do_sample=True,
-        temperature=0.3
+        max_new_tokens=100,
+        do_sample=False   # 🔥 faster
     )[0]["generated_text"]
 
     answer = result.split("Answer:")[-1].strip()
