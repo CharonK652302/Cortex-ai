@@ -6,21 +6,18 @@ from transformers import pipeline
 
 print("🚀 Starting AI system...")
 
-# ===============================
 # LOAD ENV
-# ===============================
+
 load_dotenv()
 
-# ===============================
-# LOAD VECTOR DB (ONLY ONCE)
-# ===============================
+# LOAD VECTOR DB 
+
 print("📂 Loading vector database...")
 db = load_vector_store()
 print("✅ Vector DB loaded!\n")
 
-# ===============================
 # LOAD Phi-2 MODEL
-# ===============================
+
 print("🔄 Loading Phi-2 model (first time takes ~1-2 min)...")
 
 generator = pipeline(
@@ -31,10 +28,8 @@ generator = pipeline(
 
 print("✅ Phi-2 model loaded!\n")
 
-
-# ===============================
 # MAIN FUNCTION
-# ===============================
+
 def ask_question(query):
 
     # Step 1: Retrieve relevant docs
@@ -79,10 +74,8 @@ Answer:
 
     return answer
 
-
-# ===============================
 # CLI LOOP
-# ===============================
+
 if __name__ == "__main__":
     while True:
         user_input = input("💬 Ask a question (or type 'exit'): ")
