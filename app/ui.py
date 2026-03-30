@@ -15,29 +15,25 @@ from langchain_huggingface import HuggingFaceEmbeddings
 
 import tempfile
 
-# ===============================
 # PAGE CONFIG
-# ===============================
+
 st.set_page_config(page_title="📄 Chat with PDF", layout="wide")
 st.title("📄 Chat with Your PDF (RAG + FLAN)")
 
-# ===============================
-# SIDEBAR (NEW)
-# ===============================
+# SIDEBAR
+
 with st.sidebar:
     st.title("📘 About")
     st.write("Upload a PDF and ask questions using AI.")
     st.write("Built using RAG + HuggingFace + Streamlit")
     st.write("⚡ Lightweight & fast model for deployment")
 
-# ===============================
 # FILE UPLOAD
-# ===============================
+
 uploaded_file = st.file_uploader("📂 Upload your PDF", type="pdf")
 
-# ===============================
 # MODEL
-# ===============================
+
 @st.cache_resource
 def load_model():
     return pipeline(
@@ -48,18 +44,16 @@ def load_model():
 
 generator = load_model()
 
-# ===============================
 # EMBEDDINGS
-# ===============================
+
 @st.cache_resource
 def get_embeddings():
     return HuggingFaceEmbeddings(
         model_name="sentence-transformers/all-MiniLM-L6-v2"
     )
 
-# ===============================
 # PROCESS PDF
-# ===============================
+
 def process_pdf(uploaded_file):
 
     if uploaded_file.size == 0:
@@ -98,9 +92,8 @@ def process_pdf(uploaded_file):
 
     return db
 
-# ===============================
 # LOAD DB
-# ===============================
+
 if uploaded_file:
     db = process_pdf(uploaded_file)
 
@@ -112,15 +105,13 @@ else:
     st.warning("📂 Upload a PDF to start")
     st.stop()
 
-# ===============================
 # CHAT MEMORY
-# ===============================
+
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# ===============================
 # QA FUNCTION
-# ===============================
+
 def ask_question(query):
 
     docs = db.similarity_search(query, k=2)
@@ -153,7 +144,6 @@ Question:
     except Exception as e:
         answer = f"❌ Model error: {str(e)}"
 
-    # 🔥 ADD PAGE NUMBER (SAFE "highlight")
     sources = [
         f"(Page {doc.metadata.get('page', 'N/A')})\n{doc.page_content[:150]}"
         for doc in docs
@@ -161,16 +151,12 @@ Question:
 
     return answer, sources
 
-# ===============================
 # DISPLAY CHAT
-# ===============================
+
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.write(msg["content"])
 
-# ===============================
-# DOWNLOAD CHAT (NEW)
-# ===============================
 if st.session_state.messages:
     st.download_button(
         "📥 Download Chat",
@@ -178,9 +164,8 @@ if st.session_state.messages:
         file_name="chat_history.txt"
     )
 
-# ===============================
 # USER INPUT
-# ===============================
+
 if query := st.chat_input("Ask something about your PDF..."):
 
     st.session_state.messages.append({"role": "user", "content": query})
@@ -189,7 +174,7 @@ if query := st.chat_input("Ask something about your PDF..."):
         st.write(query)
 
     with st.chat_message("assistant"):
-        with st.spinner("🤖 AI is analyzing your document..."):   # ✅ improved UX
+        with st.spinner("🤖 AI is analyzing your document..."):  
             answer, sources = ask_question(query)
 
             st.write(answer)
