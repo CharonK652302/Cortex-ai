@@ -98,5 +98,3 @@ Streamlit
 👨‍💻 Author
 Sai Charan Goud K
 AI/ML Engineer | RAG · LangGraph · LLMs
-![Demo](demo.png)
-
