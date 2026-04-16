@@ -97,4 +97,4 @@ Streamlit
 
 👨‍💻 Author
 Sai Charan Goud K
-Data & AI Enthusiast
+RAG-powered PDF chat app using TinyLlama, FAISS, LangChain — deployed on Streamlit Cloud
