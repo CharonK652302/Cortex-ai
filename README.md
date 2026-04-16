@@ -55,8 +55,6 @@ pip install -r requirements.txt
 ▶️ Run Locally
 streamlit run app/ui.py
 
-<img width="1920" height="1080" alt="Screenshot 2026-04-16 172920" src="https://github.com/user-attachments/assets/d56a58ce-1770-419f-a5ef-7ac8e94e20ed" />
-
 
 🌐 Deployment
 Deployed using Streamlit Community Cloud
@@ -102,3 +100,5 @@ Streamlit
 👨‍💻 Author
 Sai Charan Goud K
 AI/ML Engineer | RAG · LangGraph · LLMs
+
+
