@@ -1,7 +1,8 @@
 # 📄 Chat with Your PDF (RAG + LLM)
 
 An AI-powered application that allows users to **interact with PDF documents using natural language queries**.  
-Built using **Retrieval-Augmented Generation (RAG)** with open-source LLMs and deployed via Streamlit.
+Built using **Retrieval-Augmented Generation (RAG)** with open-source LLMs and deployed via Streamlit.RAG-powered 
+PDF chat app using TinyLlama, FAISS, LangChain — deployed on Streamlit Cloud
 
 ---
 
@@ -97,4 +98,4 @@ Streamlit
 
 👨‍💻 Author
 Sai Charan Goud K
-RAG-powered PDF chat app using TinyLlama, FAISS, LangChain — deployed on Streamlit Cloud
+AI/ML Engineer | RAG · LangGraph · LLMs
