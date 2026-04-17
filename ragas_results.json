@@ -1,0 +1,26 @@
+{
+  "model": "microsoft/phi-2",
+  "embeddings": "sentence-transformers/all-mpnet-base-v2",
+  "chunk_size": 500,
+  "chunk_overlap": 100,
+  "top_k_retrieval": 5,
+  "avg_faithfulness": 0.45,
+  "avg_answer_relevancy": 0.569,
+  "per_question": [
+    {
+      "question": "What is the main topic of this document?",
+      "faithfulness": 0.385,
+      "answer_relevancy": 0.875
+    },
+    {
+      "question": "What are the key points mentioned?",
+      "faithfulness": 0.522,
+      "answer_relevancy": 0.5
+    },
+    {
+      "question": "What conclusions does the document make?",
+      "faithfulness": 0.444,
+      "answer_relevancy": 0.333
+    }
+  ]
+}
