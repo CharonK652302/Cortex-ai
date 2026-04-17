@@ -77,6 +77,23 @@ cortex-ai/
 ├── .gitignore
 └── README.md
 
+## 📊 RAG Evaluation Results
+
+Evaluated using custom faithfulness and answer relevancy metrics 
+on a sample PDF document.
+
+| Metric | Score |
+|---|---|
+| Avg Faithfulness | 0.45 |
+| Avg Answer Relevancy | 0.569 |
+
+**Evaluation methodology:**
+- Faithfulness: measures how grounded answers are in retrieved context
+- Answer Relevancy: measures how relevant answers are to the question
+- Model: microsoft/phi-2
+- Embeddings: sentence-transformers/all-mpnet-base-v2
+- Top-k retrieval: 5 chunks
+
 ⚠️ Limitations
 Performance depends on CPU (no GPU)
 Slower response for large documents
