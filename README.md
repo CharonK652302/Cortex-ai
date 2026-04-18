@@ -11,7 +11,7 @@ markdown# 🧠 Cortex AI — RAG-Powered PDF Chat App
 ---
 
 ## 🚀 Live Demo
-🌐 [Try it on Streamlit Cloud](cortex-ai-hbgbdge9ldkmkfpnmwforn)
+🌐 [Try it on Streamlit Cloud](https://cortex-ai-hbgbdge9ldkmkfpnmwforn.streamlit.app)
 
 ---
 
