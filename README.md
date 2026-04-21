@@ -54,7 +54,7 @@ measuring how grounded and relevant answers are to retrieved context.
 | Frontend | Streamlit |
 | Containerization | Docker |
 | Language | Python 3.11 |
-
+LangChain LCEL | LlamaIndex | Crew.ai | MLflow | GitHub Actions CI | pytest
 ---
 
 ## 🏗️ Architecture
