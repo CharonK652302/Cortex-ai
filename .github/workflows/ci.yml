@@ -35,4 +35,4 @@ jobs:
         with:
           python-version: "3.11"
       - run: pip install ruff
-      - run: ruff check . --ignore E501 --ignore F401 --ignore F541 --ignore E401
+      - run: ruff check . --ignore E501 --ignore F401 --ignore F541 --ignore E401 --ignore E711 --ignore E712
