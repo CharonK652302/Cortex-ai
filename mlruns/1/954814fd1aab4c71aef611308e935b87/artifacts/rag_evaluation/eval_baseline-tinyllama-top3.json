@@ -1,0 +1,47 @@
+{
+  "run_name": "baseline-tinyllama-top3",
+  "timestamp": "2026-04-21T20:56:40.773531",
+  "config": {
+    "model": "TinyLlama-1.1B",
+    "embed": "all-mpnet-base-v2",
+    "top_k": 3,
+    "chunk_size": 500
+  },
+  "results": {
+    "per_question": [
+      {
+        "question": "What is the main topic of the document?",
+        "answer_preview": "The document addresses what is the main topic of the document. with relevant inf...",
+        "faithfulness": 1.0,
+        "answer_relevancy": 1.0
+      },
+      {
+        "question": "What are the key findings mentioned?",
+        "answer_preview": "The document addresses what are the key findings mentioned. with relevant inform...",
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.833
+      },
+      {
+        "question": "What methodology was used?",
+        "answer_preview": "The document addresses what methodology was used. with relevant information....",
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.75
+      },
+      {
+        "question": "What are the limitations mentioned?",
+        "answer_preview": "The document addresses what are the limitations mentioned. with relevant informa...",
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.8
+      },
+      {
+        "question": "What is the conclusion?",
+        "answer_preview": "The document addresses what is the conclusion. with relevant information....",
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.75
+      }
+    ],
+    "avg_faithfulness": 1.0,
+    "avg_answer_relevancy": 0.827,
+    "num_questions": 5
+  }
+}
